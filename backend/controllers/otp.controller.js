@@ -106,6 +106,7 @@ const message = async(recipientEmail,text)=>{
 export  const updateInfo = async(req,res)=>{
     try{
 const {email, password}=req.body;
+console.log(email,password);
   const salt = await bcrypt.genSalt(10);
         const hashedPassword =await bcrypt.hash(password,salt);
 let User = await Users.findOneAndUpdate({email:email},{password:hashedPassword},{new:true});
@@ -114,8 +115,8 @@ const msg = await message(email,`.Hi This Message Is From TechMela BY CCA OF NIT
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'arnabpachal2004@gmail.com',
-        pass: 'zevl zvew jzbh zatk',
+        user: process.env.GOOGLE_USER,
+        pass: process.env.GOOGLE_PASS,
     },
 });
 await transporter.sendMail(msg);
