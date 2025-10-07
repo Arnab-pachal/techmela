@@ -23,7 +23,7 @@ const sendOTP = async (recipientEmail) => {
  
 
  const mailOptions = {
-    from: 'ap.23cs8031@nitdgp.ac.in',
+    from: 'arnabpachal2004@gmail.com',
     to: recipientEmail,
     subject: 'Your OTP for App Access',
     text: `Your OTP is ${otp}. It is valid for 10 minutes.`,
