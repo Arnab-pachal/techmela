@@ -3,7 +3,7 @@ import { axiosInstance } from "../lib/axios"
 import io from "socket.io-client"
 
 
-const url = "https://techmelaback.onrender.com"
+const url = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000"
 export const useauthStore=create((set,get)=>({
     authUser:null,
     isSigningUp:false,
@@ -59,6 +59,7 @@ export const useauthStore=create((set,get)=>({
             alert("Account Created Successfully");
         }
         catch(error){
+          console.log("error in signup :- ",error.response.data.message);
             alert(error.response.data.message);
         }
         finally{
@@ -86,7 +87,8 @@ export const useauthStore=create((set,get)=>({
             alert("Logged-in Successfully");
          }
          catch(error){
-          alert(error);
+          console.log("error in login :- ",error.response.data.message);
+          alert(error.response.data.message);
          }
          finally{
             set({isLoggingIng:false})

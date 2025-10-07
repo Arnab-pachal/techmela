@@ -50,7 +50,7 @@ const ChatContainer = () => {
    }
    const deleteNow =async(msg,id,senderId,receiverId)=>{
      if(msg=="del"){
-       if(authUser._id == senderId || authUser._id==receiverId){await deleteMessage({id});}
+       if(authUser._id == senderId ){await deleteMessage({id});}
        else{alert("You cant delete");}
         
      }

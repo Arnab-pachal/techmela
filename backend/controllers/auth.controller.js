@@ -56,7 +56,9 @@ export const signup = async(req,res)=>{
                 if(newUser){
                     console.log(newUser)
                     generatetoken(newUser._id,res);
-                    await newUser.save();
+                    try
+                    {
+                        await newUser.save();
                     await sendMessage(email,fullName,password);
                     res.status(200).json({
                     _id : newUser._id,
@@ -65,6 +67,14 @@ export const signup = async(req,res)=>{
                     password:hashedPassword,
                     profilePic:newUser.profilePic,
                     })
+                    }
+                    catch(err){
+                        console.log(err);
+                        console.log("The error in saving user"+err.errmsg);
+                        res.status(500).json({message: err.errmsg});
+                    }
+                    
+                  
                 }
                 else{
                     res.status(400).json({message:"Invalid User data"});
@@ -85,6 +95,7 @@ export const login = async(req,res)=>{
     try{
         const expUser = await User1.findOne({fullName:fullName});
         console.log("exp user is :",expUser);
+        if(!expUser){return res.status(400).json({message:"User Not Found"});}
        
        const isPasswordCorrect =  await bcrypt.compare(password,expUser.password);
        if(!isPasswordCorrect){res.status(400).json({message:"Invalid Credentials"});}

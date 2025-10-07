@@ -3,24 +3,27 @@ import crypto from "crypto"
 import OTP from "../models/otp.model.js"
 import Users from "../models/userschema.js";
 import bcrypt from "bcryptjs"
+
 const generateOTP = () => {
     return crypto.randomInt(100000, 999999);
 };
 
 const sendOTP = async (recipientEmail) => {
     const otp = generateOTP();
+    console.log(otp);
+    console.log("The user and pass is:-"+process.env.GOOGLE_USER+" "+process.env.GOOGLE_PASS);
 
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: 'arnabpachal2004@gmail.com',
-            pass: 'zevl zvew jzbh zatk',
+            user: process.env.GOOGLE_USER,
+            pass: process.env.GOOGLE_PASS,
         },
     });
  
 
  const mailOptions = {
-    from: 'arnabpachal2004@gmail.com',
+    from: 'ap.23cs8031@nitdgp.ac.in',
     to: recipientEmail,
     subject: 'Your OTP for App Access',
     text: `Your OTP is ${otp}. It is valid for 10 minutes.`,
@@ -29,6 +32,7 @@ const sendOTP = async (recipientEmail) => {
 try {
     await transporter.sendMail(mailOptions);
     console.log(`OTP sent to ${recipientEmail}`);
+
     return otp; // Store this OTP securely
 } catch (error) {
     console.error('Error sending email:', error);

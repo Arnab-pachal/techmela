@@ -32,10 +32,12 @@ const ProfilePage = () => {
                 <span className="text-green-500">Active</span>
               </div>
               <Link to="/team" className=" link-primary">
-              <div className="flex items-center justify-between py-2 border-b border-zinc-700" >
+              {authUser && !authUser.isHost  && 
+              (<div className="flex items-center justify-between py-2 border-b border-zinc-700" >
                 <span>Team Name</span>
+                
                 <span>{authUser.TeamName?authUser.TeamName:"No team finalised"}</span>
-              </div>
+              </div>)}
               </Link>
               {authUser && authUser.isHost && (
               <div className="flex h-full rounded-lg overflow-hidden pb-8">
