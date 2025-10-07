@@ -3,7 +3,7 @@ import { axiosInstance } from "../lib/axios"
 import io from "socket.io-client"
 
 
-const url = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000"
+const url = import.meta.env.VITE_BACKEND_URL
 export const useauthStore=create((set,get)=>({
     authUser:null,
     isSigningUp:false,
