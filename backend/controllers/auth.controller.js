@@ -98,6 +98,7 @@ export const login = async(req,res)=>{
         if(!expUser){return res.status(400).json({message:"User Not Found"});}
        
        const isPasswordCorrect =  await bcrypt.compare(password,expUser.password);
+       console.log(isPasswordCorrect);
        if(!isPasswordCorrect){res.status(400).json({message:"Invalid Credentials"});}
        else{
         generatetoken(expUser._id,res);

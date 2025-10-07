@@ -39,24 +39,33 @@ try {
 }
 }
 
-export const send =async(req,res)=>{
+export const send = async (req, res) => {
+    try {
+        const { email } = req.body;
+        console.log(email);
 
-    try{
-    
-    let {email}=req.body;
-    console.log(email)
-    let existedotp = OTP.find({email:email});
-    if(existedotp){await OTP.findByIdAndDelete(existedotp._id);}
-    const result = await sendOTP(email);
-    let newotp = new OTP({email:email,otp:result,expiresAt:Date.now()+10*60*1000,used:false});
-    newotp.save();
-    res.status(200).json({message : "OTP Send Successfully"});}
-    catch(e){
+        const existedotp = await OTP.findOne({ email });
+        if (existedotp) {
+            await OTP.findByIdAndDelete(existedotp._id);
+        }
+
+        const result = await sendOTP(email);
+        const newotp = new OTP({
+            email: email,
+            otp: result,
+            expiresAt: Date.now() + 10 * 60 * 1000, // 10 minutes
+            used: false,
+        });
+
+        await newotp.save();
+        res.status(200).json({ message: "OTP Sent Successfully" });
+
+    } catch (e) {
         console.log(e);
-        res.status(500).json({message:'Internal Server Error'});
+        res.status(500).json({ message: 'Internal Server Error' });
     }
+};
 
-}
 export const verify = async(req,res)=>{
     const { email, otp} = req.body;
 
